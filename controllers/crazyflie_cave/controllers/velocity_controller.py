@@ -68,11 +68,29 @@ class VelocityController:
         self.prev_error_x = error_x
         self.prev_error_y = error_y
 
+
         # --- Aufgabe 2a: Vertical velocity controller  ---
-        # Implement a PID or PD controller that outputs thrust_command.        
-        
-        thrust_command = 0.001  # placeholder - replace with your controller output
+        # Implement a PID or PD controller that outputs thrust_command.
 
+        # proportional
+        error_z = vz_ref - vz
+        if abs(error_z) < 0.01:
+            error_z = 0.0
 
+        # derivative
+        raw_deriv_z = (error_z - self.prev_error_z) / self.dt
+        self.deriv_z = (self.tau_d * self.deriv_z + self.dt * raw_deriv_z) / (self.tau_d + self.dt)
+
+        # integral
+        self.integral_z += error_z * self.dt
+
+        # calculate F_hover + PID
+        # F_hover ==> Basic force for flying/hovering drone
+        thrust_command = (self.F_hover
+                          + self.Kp_z * error_z
+                          + self.Kd_z * self.deriv_z
+                          + self.Ki_z * self.integral_z)
+
+        self.prev_error_z = error_z
 
         return desired_roll, desired_pitch, thrust_command

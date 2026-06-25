@@ -25,9 +25,9 @@ VELOCITY_GAINS = {
     "Kp_xy": 0.5,
     "Kd_xy": 1.0,
     # Aufgabe 2a: Tune the height controller gains
-    "Kp_z": 0.0,   
-    "Ki_z": 0.0,   
-    "Kd_z": 0.0,   
+    "Kp_z": 4.37,
+    "Ki_z": 0.234,
+    "Kd_z": 10.0,
     "tau_d": 0.1,
 }
 
